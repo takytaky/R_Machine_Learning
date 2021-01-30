@@ -63,7 +63,7 @@ ggplot(Orange, aes(factor(color))) +
 ggplot(Orange, aes(species)) + 
   geom_bar(aes(fill = species))
 
-
+table(Orange$species)
 
 
 
@@ -308,7 +308,7 @@ plot(Model_ct)
 
 
 
-# Validation Data에 모델 적용
+# Test Data에 모델 적용
 
 Pred_Model_ct <- predict(Model_ct, HEART[-HRT_TR,])
 

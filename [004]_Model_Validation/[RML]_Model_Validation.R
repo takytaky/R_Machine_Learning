@@ -117,14 +117,14 @@ abline(Model_1, col = "red", lwd = 3)
 
 y_hat_1 <- predict(Model_1, Elec)
 y_hat_1[1:50]
-
+length(y_hat_1)
 
 
 # 실제 전기사용량(y)
 
 y <- Elec$electricity
 y[1:50]
-
+length(y)
 
 
 
@@ -303,7 +303,7 @@ points(a, predict(Model_9, data.frame(surface_area = a)),
 # str(Elec) vs. str(Elec[trainIndex,]) vs. str(Elec[-trainIndex,])
 
 Elec <- read.csv("[mlData]/Electric.csv")
-
+str(Elec)
 
 
 
@@ -313,18 +313,18 @@ Elec <- read.csv("[mlData]/Electric.csv")
 set.seed(2045)
 
 
-
 # Training Data(70%) : Index
 
 train_Index <- sample(1:nrow(Elec), nrow(Elec) * 0.7)
-
-
-
+train_Index[1:5]
+length(train_Index)
 # Testing Data(30%) : 실제값(y)
 
 y_test <- Elec$electricity[-train_Index]
+length(y_test)
 
-
+plot(Elec$surface_area[train_Index], Elec$electricity[train_Index], pch = 19, col = "blue")
+plot(Elec$surface_area[-train_Index], Elec$electricity[-train_Index], pch = 19, col = "red")
 
 
 
@@ -445,7 +445,7 @@ plot(Elec$electricity ~ Elec$surface_area, cex = 1.5)
 
 set.seed(2045)
 train_IDX <- sample(1:nrow(Elec), nrow(Elec) * 0.6)
-
+length(train_IDX)
 
 
 # Validation Data(20%) : Index
@@ -480,7 +480,7 @@ Valid_Err_1
 
 # 5차함수
 
-Model_5 <- lm(electricity ~ poly(surface_area, 5), Elec[train_Index,])
+Model_5 <- lm(electricity ~ poly(surface_area, 5), Elec[train_IDX,])
 Pred_W_5 <- predict(Model_5, Elec[valid_IDX,])
 Valid_Err_5 <- mean((Elec$electricity[valid_IDX] - Pred_W_5)^2)
 Valid_Err_5
@@ -490,7 +490,7 @@ Valid_Err_5
 
 # 9차함수
 
-Model_9 <- lm(electricity ~ poly(surface_area, 9), Elec[train_Index,])
+Model_9 <- lm(electricity ~ poly(surface_area, 9), Elec[train_IDX,])
 Pred_W_9 <- predict(Model_9, Elec[valid_IDX,])
 Valid_Err_9 <- mean((Elec$electricity[valid_IDX] - Pred_W_9)^2)
 Valid_Err_9
@@ -596,7 +596,7 @@ CV_ERR <- cv.glm(TRD, Model_CV, K = 5)
 # 1st : prediction Error
 # 2nd : adjusted Cross-Validation estimate(bias)
 
-CV_ERR$delta
+CV_ERR$delta[1]
 
 
 

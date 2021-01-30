@@ -278,6 +278,15 @@ F1_Score
 
 
 
+# install.packages("caret")
+# install.packages("e1071")
+
+library(caret)
+
+confusionMatrix(factor(y_label1), factor(TE_DFT$default),
+                positive = "1",
+                mode = "prec_recall",
+                dnn = c("Predicted", "Actual"))
 
 
 
@@ -287,7 +296,7 @@ F1_Score
 
 
 
-
+# 개별실습
 # scale( ) 적용 ####
 
 DFT <- read.csv("[mlData]/Default.csv")
@@ -295,7 +304,6 @@ str(DFT)
 
 DFT$default <- ifelse(DFT$default == "Yes", 1, 0)
 DFT$balance <- scale(DFT$balance)
-
 
 
 # Train vs. Test(7:3)
@@ -489,6 +497,8 @@ library(nnet)
 # iris Data
 
 iris <- read.csv("[mlData]/IRIS.csv")
+head(iris)
+table(iris$Species)
 
 set.seed(2045)
 
@@ -533,8 +543,9 @@ Pred_MLR_C[11:30]
 table(TE_IS$Species, Pred_MLR_C)
 
 
-
-
+confusionMatrix(Pred_MLR_C, TE_IS$Species,
+                mode = "prec_recall",
+                dnn = c("Predicted", "Actual"))
 
 
 

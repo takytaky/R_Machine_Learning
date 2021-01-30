@@ -238,7 +238,7 @@ points(x, fitted(Model_lm), col = "blue", cex = 1.5)
 
 predict(Model_lm, 
         newdata = data.frame(x = 53), 
-        interval = "confidence")
+        interval = "confidence", level = 0.95)
 
 
 
@@ -513,8 +513,8 @@ iris_plot
 Insure_Data <- read.csv("[mlData]/insurance.csv")
 
 head(Insure_Data)
-
-
+str(Insure_Data)
+table(Insure_Data$region)
 
 
 
@@ -547,7 +547,7 @@ Test_Data <- Test_Data[, -7]
 
 
 
-
+library(ggplot2)
 # 시각화를 통한 데이터 탐색
 
 # 의료비 분포
@@ -587,11 +587,11 @@ ggplot(Train_Data, aes(x = region, y = expenses)) +
 
 
 
-
+head(Train_Data,1)
 # 초기 Model_1 생성
 
 Model_1 <- lm(expenses ~ ., Train_Data)
-
+vif(Model_1)
 Pred_Expenses_1 <- predict(Model_1, Test_Data)
 
 
@@ -611,7 +611,7 @@ Pred_Expenses_1 <- predict(Model_1, Test_Data)
 # Model_2 - 수정
 
 Model_2 <- lm(expenses ~ bmi + smoker + children + sex, Train_Data)
-
+vif(Model_2)
 Pred_Expenses_2 <- predict(Model_2, Test_Data)
 
 (MSE2 <- sqrt(mean((Test_Expenses - Pred_Expenses_2)^2)))
@@ -621,7 +621,7 @@ Pred_Expenses_2 <- predict(Model_2, Test_Data)
 # Model_3 - 수정
 
 Model_3 <- lm(expenses ~ bmi + smoker + age, Train_Data)
-
+vif(Model_3)
 Pred_Expenses_3 <- predict(Model_3, Test_Data)
 
 (MSE3 <- sqrt(mean((Test_Expenses - Pred_Expenses_3)^2)))
@@ -631,7 +631,7 @@ Pred_Expenses_3 <- predict(Model_3, Test_Data)
 # Model_4 - 수정
 
 Model_4 <- lm(expenses ~ . -region, Train_Data)
-
+vif(Model_4)
 Pred_Expenses_4 <- predict(Model_4, Test_Data)
 
 (MSE4 <- sqrt(mean((Test_Expenses - Pred_Expenses_4)^2)))
@@ -641,7 +641,7 @@ Pred_Expenses_4 <- predict(Model_4, Test_Data)
 # Model_5 - 수정
 
 Model_5 <- lm(expenses ~ bmi + smoker + age + children, Train_Data)
-
+vif(Model_5)
 Pred_Expenses_5 <- predict(Model_5, Test_Data)
 
 (MSE5 <- sqrt(mean((Test_Expenses - Pred_Expenses_5)^2)))
@@ -651,7 +651,7 @@ Pred_Expenses_5 <- predict(Model_5, Test_Data)
 # Model_6 - 수정
 
 Model_6 <- lm(expenses ~ bmi + smoker + age + children + region, Train_Data)
-
+vif(Model_6)
 Pred_Expenses_6 <- predict(Model_6, Test_Data)
 
 (MSE6 <- sqrt(mean((Test_Expenses - Pred_Expenses_6)^2)))
@@ -669,3 +669,15 @@ MSE1 ; MSE2 ; MSE3 ; MSE4 ; MSE5 ; MSE6
 
 
 # The End ####
+
+
+
+
+
+
+
+
+
+Model_7 <- lm(expenses ~ bmi * smoker + age + children, Train_Data)
+Pred_Expenses_7 <- predict(Model_7, Test_Data)
+(MSE7 <- sqrt(mean((Test_Expenses - Pred_Expenses_7)^2)))

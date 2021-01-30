@@ -35,7 +35,7 @@ library(class)
 Model_knn <- knn(Iris_TR[, -5], 
                  Iris_TE[, -5], 
                  Iris_TR$Species, 
-                 k = 3)
+                 k = 1)
 
 
 summary(Model_knn)

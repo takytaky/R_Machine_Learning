@@ -10,7 +10,7 @@ library(randomForest)
 
 # Heart.csv - AHD(심장병 유무 정보)
 
-HEART <- read.csv("mlData/Heart.csv")
+HEART <- read.csv("[mlData]/Heart.csv")
 
 str(HEART)
 
@@ -26,7 +26,7 @@ set.seed(2045)
 HRT_TR <- sample(1:nrow(HEART), nrow(HEART) * 0.7)
 
 
-
+ncol(HEART)
 
 # Modeling
 # Number of trees: 500
@@ -58,13 +58,13 @@ Pred_Model_En <- predict(Model_En, HEART[-HRT_TR,])
 table(Pred_Model_En)
 
 
-
 # Model Performance
+
+library(caret)
 
 confusionMatrix(Pred_Model_En, HEART[-HRT_TR,]$AHD, 
                 positive = "Yes",
                 mode = "prec_recall")
-
 
 
 
@@ -82,7 +82,7 @@ confusionMatrix(Pred_Model_En, HEART[-HRT_TR,]$AHD,
 
 Model_rf <- randomForest(AHD ~ ., 
                          HEART[HRT_TR,],
-                         mtry = 1)
+                         mtry = 2, ntree = 1500)
 
 Pred_Model_rf <- predict(Model_rf, HEART[-HRT_TR,])
 
@@ -131,26 +131,6 @@ Pred_Model_rf <- predict(Model_rf, HEART[-HRT_TR,])
 confusionMatrix(Pred_Model_rf, HEART[-HRT_TR,]$AHD, 
                 positive = "Yes",
                 mode = "prec_recall")
-
-
-
-# mtry = 13
-
-Model_rf <- randomForest(AHD ~ ., 
-                         HEART[HRT_TR,],
-                         mtry = 13)
-
-Pred_Model_rf <- predict(Model_rf, HEART[-HRT_TR,])
-
-confusionMatrix(Pred_Model_rf, HEART[-HRT_TR,]$AHD, 
-                positive = "Yes",
-                mode = "prec_recall")
-
-
-
-
-
-
 
 
 
